@@ -1,11 +1,16 @@
+from typing import Union
+
 from interactivity.generics import HandlerFactory
 
+from .handlers import ActionCommandHandler, CommandHandler
 from .payloads import CommandPayload
 
 __all__ = ("CommandFactory",)
 
+HandlerT = Union[CommandHandler, ActionCommandHandler]
 
-class CommandFactory(HandlerFactory):
+
+class CommandFactory(HandlerFactory[HandlerT, CommandPayload]):
     """Factory that initializes a `CommandHandler` using the Slack request payload."""
 
     @classmethod

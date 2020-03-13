@@ -3,12 +3,16 @@ from typing import Union
 from interactivity.exceptions import InteractivityError
 from interactivity.generics import HandlerFactory
 
+from .handlers import ViewHandler, ViewSubmissionHandler
 from .payloads import ViewClosedPayload, ViewPayload, ViewSubmissionPayload
 
 __all__ = ("ViewFactory",)
 
+HandlerT = Union[ViewHandler, ViewSubmissionHandler]
+PayloadT = Union[ViewSubmissionPayload, ViewClosedPayload]
 
-class ViewFactory(HandlerFactory):
+
+class ViewFactory(HandlerFactory[HandlerT, PayloadT]):
     """
     Requires that the `private_metadata` stored with the view be valid JSON and
     include an attribute called `view_id` that uniquely identifies the view so
@@ -16,9 +20,7 @@ class ViewFactory(HandlerFactory):
     """
 
     @classmethod
-    def make_payload(
-        cls, request_data: dict
-    ) -> Union[ViewSubmissionPayload, ViewClosedPayload]:
+    def make_payload(cls, request_data: dict) -> PayloadT:
         request_type = request_data["type"]
 
         if request_type == "view_submission":

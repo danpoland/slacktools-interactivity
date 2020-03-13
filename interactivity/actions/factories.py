@@ -1,18 +1,23 @@
+from typing import Any, Dict, Union
+
 from interactivity.exceptions import InteractivityError
 from interactivity.generics import HandlerFactory
 
+from .handlers import ActionHandler
 from .payloads import ActionPayload, BlockActionPayload
 
 __all__ = ("ActionFactory",)
 
+PayloadT = Union[ActionPayload, BlockActionPayload]
 
-class ActionFactory(HandlerFactory):
+
+class ActionFactory(HandlerFactory[ActionHandler, PayloadT]):
     """
     Factory that initializes a `ActionHandler` using the Slack request payload.
     """
 
     @classmethod
-    def make_payload(cls, request_data: dict) -> ActionPayload:
+    def make_payload(cls, request_data: Dict[str, Any]) -> PayloadT:
         request_type = request_data["type"]
 
         if request_type == "message_action":

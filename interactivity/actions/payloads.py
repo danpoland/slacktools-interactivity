@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 
 from interactivity.generics import InteractivityPayload
 
@@ -22,7 +22,7 @@ class ActionPayload(InteractivityPayload):
         user: dict,
         actions: List[dict],
         token: str,
-        message: dict,
+        message: Union[dict, None],
         channel: dict,
         team: dict,
         **kwargs
