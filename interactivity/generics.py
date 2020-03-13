@@ -76,7 +76,7 @@ class HandlerFactory(ABC):
         cls._handlers[key] = klass
 
     @classmethod
-    def make_handler(cls, request_data: dict) -> Type[ActivityHandler]:
+    def make_handler(cls, request_data: dict) -> ActivityHandler:
         """
         :param request_data: The body from the Slack interactivity request.
         """
