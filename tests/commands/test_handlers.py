@@ -6,9 +6,9 @@ from interactivity import (
     ActionCommandHandler,
     CommandAction,
     CommandHandler,
-    CommandPayload,
     CommandValidationError,
 )
+from interactivity.generics import Payload
 
 
 class SuccessCommand(CommandHandler):
@@ -98,7 +98,7 @@ class TestActionCommandHandler:
 
     def test_not_an_action(self, command_request_data):
         command_request_data["text"] = "wrong"
-        command = SuccessActionCommand(CommandPayload(**command_request_data))
+        command = SuccessActionCommand(Payload(**command_request_data))
         with pytest.raises(CommandValidationError):
             command.execute()
 

@@ -1,18 +1,16 @@
 from typing import Union
 
-from interactivity.exceptions import InteractivityError
-from interactivity.generics import HandlerFactory
+from interactivity.generics import HandlerFactory, Payload
 
 from .handlers import ViewHandler, ViewSubmissionHandler
-from .payloads import ViewClosedPayload, ViewPayload, ViewSubmissionPayload
+from .payloads import ViewPayload
 
 __all__ = ("ViewFactory",)
 
 HandlerT = Union[ViewHandler, ViewSubmissionHandler]
-PayloadT = Union[ViewSubmissionPayload, ViewClosedPayload]
 
 
-class ViewFactory(HandlerFactory[HandlerT, PayloadT]):
+class ViewFactory(HandlerFactory[HandlerT]):
     """
     Requires that the `private_metadata` stored with the view be valid JSON and
     include an attribute called `view_id` that uniquely identifies the view so
@@ -20,18 +18,9 @@ class ViewFactory(HandlerFactory[HandlerT, PayloadT]):
     """
 
     @classmethod
-    def make_payload(cls, request_data: dict) -> PayloadT:
-        request_type = request_data["type"]
-
-        if request_type == "view_submission":
-            return ViewSubmissionPayload(**request_data)
-        elif request_data["type"] == "view_closed":
-            return ViewClosedPayload(**request_data)
-
-        raise InteractivityError(
-            f"Received unexpected view payload type: {request_type}"
-        )
+    def make_payload(cls, request_data: dict) -> ViewPayload:
+        return ViewPayload(**request_data)
 
     @classmethod
-    def extract_key(cls, payload: ViewPayload) -> str:
+    def extract_key(cls, payload: Payload) -> str:
         return payload.metadata["view_id"]

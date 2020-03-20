@@ -2,7 +2,7 @@ from typing import Dict
 
 import pytest
 
-from interactivity import CommandPayload
+from interactivity.generics import Payload
 
 
 def make_command_request_data():
@@ -35,7 +35,7 @@ def make_command_payload():
         command_request_data = make_command_request_data()
         if request_data:
             command_request_data = {**command_request_data, **request_data}
-        return CommandPayload(**command_request_data)
+        return Payload(**command_request_data)
 
     return _make_command_payload
 
