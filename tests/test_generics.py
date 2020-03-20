@@ -1,7 +1,7 @@
 import pytest
 
 from interactivity import InteractivityError
-from interactivity.generics import ActivityHandler, HandlerFactory, InteractivityPayload
+from interactivity.generics import ActivityHandler, HandlerFactory, Payload
 
 
 @pytest.fixture
@@ -11,7 +11,7 @@ def request_data():
 
 @pytest.fixture
 def payload(request_data):
-    return InteractivityPayload(**request_data)
+    return Payload(**request_data)
 
 
 class MockHandler(ActivityHandler):
@@ -21,15 +21,15 @@ class MockHandler(ActivityHandler):
 
 class MockHandlerFactory(HandlerFactory):
     @classmethod
-    def make_payload(cls, request_data: dict) -> InteractivityPayload:
-        return InteractivityPayload(**request_data)
+    def make_payload(cls, request_data: dict) -> Payload:
+        return Payload(**request_data)
 
     @classmethod
-    def extract_key(cls, payload: InteractivityPayload) -> str:
+    def extract_key(cls, payload: Payload) -> str:
         return payload.key
 
 
-class TestInteractivityPayload:
+class TestPayload:
     def test_attribute_exists(self, payload):
         assert payload.name == "test"
 

@@ -1,14 +1,13 @@
 from abc import ABC, abstractmethod
 from typing import Any, ClassVar, Dict, Generic, List, Type, TypeVar, Union
 
-from interactivity.generics import ActivityHandler
+from interactivity.generics import ActivityHandler, Payload
 
 from .exceptions import CommandValidationError
-from .payloads import CommandPayload
 
 __all__ = ("CommandHandler", "ActionCommandHandler", "CommandAction")
 
-P = TypeVar("P", bound=CommandPayload)
+P = TypeVar("P", bound=Payload)
 
 
 class CommandHandler(ActivityHandler[P], ABC):

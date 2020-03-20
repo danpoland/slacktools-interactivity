@@ -4,7 +4,7 @@ from typing import Any, Callable, ClassVar, Dict, Generic, Type, TypeVar, Union
 from .exceptions import InteractivityError
 
 
-class InteractivityPayload:
+class Payload:
     """
     Base payload class. Payload classes are meant to help auto-complete attributes
     without having to reference the Slack docs but the Slack docs only include
@@ -22,7 +22,7 @@ class InteractivityPayload:
         return super().__getattribute__(item)
 
 
-P_co = TypeVar("P_co", bound=InteractivityPayload, covariant=True)
+P_co = TypeVar("P_co", bound=Payload, covariant=True)
 
 
 class ActivityHandler(ABC, Generic[P_co]):
@@ -41,10 +41,9 @@ class ActivityHandler(ABC, Generic[P_co]):
 
 
 H_co = TypeVar("H_co", bound=ActivityHandler, covariant=True)
-P = TypeVar("P", bound=InteractivityPayload)
 
 
-class HandlerFactory(ABC, Generic[H_co, P]):
+class HandlerFactory(ABC, Generic[H_co]):
     """
     Base factory class for initializing `ActivityHandler` instances from a
     Slack interactivity request.
@@ -97,22 +96,21 @@ class HandlerFactory(ABC, Generic[H_co, P]):
         return klass(payload)
 
     @classmethod
-    @abstractmethod
-    def make_payload(cls, request_data: Dict[str, Any]) -> P:
+    def make_payload(cls, request_data: Dict[str, Any]) -> Payload:
         """
-        Initialize and return an `InteractivityPayload`.
+        Initialize and return an `Payload`.
 
         :param request_data: The Slack interactivity request data.
         """
-        pass
+        return Payload(**request_data)
 
     @classmethod
     @abstractmethod
-    def extract_key(cls, payload: P) -> str:
+    def extract_key(cls, payload: Payload) -> str:
         """
         Extracts the key used to identify which registered handler to initialize.
 
-        :param payload: The `InteractivityPayload` to extract the key used to register
+        :param payload: The `Payload` to extract the key used to register
             handlers with the factory from.
         """
         pass

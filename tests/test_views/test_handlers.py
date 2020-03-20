@@ -1,4 +1,5 @@
-from interactivity import ViewSubmissionHandler, ViewSubmissionPayload
+from interactivity import ViewSubmissionHandler
+from interactivity.generics import Payload
 
 
 class MyView(ViewSubmissionHandler):
@@ -8,6 +9,6 @@ class MyView(ViewSubmissionHandler):
 
 class TestViewSubmissionHandler:
     def test_state(self, view_submission_request_data):
-        payload = ViewSubmissionPayload(**view_submission_request_data)
+        payload = Payload(**view_submission_request_data)
         handler = MyView(payload)
         assert handler.state == payload.view["state"]
