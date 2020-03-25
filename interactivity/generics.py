@@ -12,7 +12,7 @@ class Payload:
     any non-explicitly identified attributes.
     """
 
-    def __init__(self, **kwargs: Dict[str, Any]):
+    def __init__(self, **kwargs):
         self._request_data: Dict[str, Any] = kwargs
 
     def __getattr__(self, item: str) -> Any:
