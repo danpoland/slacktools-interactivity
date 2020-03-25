@@ -6,7 +6,7 @@ from interactivity.generics import ActivityHandler, HandlerFactory, Payload
 
 @pytest.fixture
 def request_data():
-    return {"key": "first", "name": "test"}
+    return {"key": "first", "name": "test", "text": ""}
 
 
 @pytest.fixture
@@ -32,6 +32,9 @@ class MockHandlerFactory(HandlerFactory):
 class TestPayload:
     def test_attribute_exists(self, payload):
         assert payload.name == "test"
+
+    def test_attribute_empty_string(self, payload):
+        assert payload.text == ""
 
     def test_attribute_does_not_exist(self, payload):
         with pytest.raises(AttributeError):
