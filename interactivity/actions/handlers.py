@@ -1,14 +1,14 @@
 from abc import ABC
-from typing import Any, Dict, TypeVar
+from typing import Any, Dict
 
-from interactivity.generics import ActivityHandler, Payload
+from interactivity.generics import ActivityHandler
+
+from .payloads import ActionPayload
 
 __all__ = ("ActionHandler",)
 
-P = TypeVar("P", bound=Payload)
 
-
-class ActionHandler(ActivityHandler[Payload], ABC):
+class ActionHandler(ActivityHandler[ActionPayload], ABC):
     """
     Base handler class used for block and attachment actions:
     https://api.slack.com/reference/interaction-payloads/block-actions
