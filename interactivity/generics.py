@@ -17,7 +17,7 @@ class Payload:
 
     def __getattr__(self, item: str) -> Any:
         """Allows the payload attributes to be directly accessible."""
-        if attr := self._request_data.get(item):
+        if (attr := self._request_data.get(item)) is not None:
             return attr
         return super().__getattribute__(item)
 
