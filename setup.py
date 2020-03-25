@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="slacktools-interactivity",
-    version="1.2.0",
+    version="1.2.1",
     author="Daniel Poland",
     author_email="dan@crispy.dev",
     long_description=long_description,
